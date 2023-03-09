@@ -56,7 +56,7 @@ class WordGenerator:
         return syll
 
     def makeWord(self, wordSeed=""):
-        if wordSeed.lower() in self.language["dictionary"].keys():
+        if "dictionary" in self.language.keys() and wordSeed.lower() in self.language["dictionary"].keys():
             return self.language["dictionary"][wordSeed.lower()]
 
         if wordSeed != "":
@@ -102,9 +102,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
     TEXT = args.text
     LANG = args.lang
-    TEXTSPLIT = TEXT.split(" ")
     wordGen = WordGenerator(LANG)
     words = list()
-    for i in TEXTSPLIT:
-        words.append(wordGen.makeWord(i))
+    if TEXT is not None:
+        TEXTSPLIT = TEXT.split(" ")
+        for i in TEXTSPLIT:
+            words.append(wordGen.makeWord(i))
+    else:
+        words.append(wordGen.makeWord())
+
     print(" ".join(words))
