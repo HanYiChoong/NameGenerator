@@ -1,0 +1,21 @@
+{
+    "$schema": "language.schema",
+    "phonemes": {
+        "V": "iuajw",
+        "C": "tksʃdbqɣxmnlrwj"
+    },
+    "structure": "CV?C",
+    "ortho": {},
+    "maxChar": 8,
+    "minChar": 3,
+    "maxSyll": 3,
+    "minSyll": 1,
+	"dictionary": {
+		"caliph": "kyka",
+		"caliphate": "kykashu",
+		"creek": "yamishu",
+		"middle": "yghod",
+		"police": "ghat",
+		"jasmine": "rukagy"
+	}
+}

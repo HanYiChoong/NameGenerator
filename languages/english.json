@@ -1,0 +1,13 @@
+{
+    "$schema": "language.schema",
+    "phonemes": {
+        "V": "aeiou",
+        "C": "ptkbdgmnlrsʃzʒʧ"
+    },
+    "structure": "CV?C",
+    "ortho": {},
+    "maxChar": 8,
+    "minChar": 3,
+    "maxSyll": 3,
+    "minSyll": 1
+}

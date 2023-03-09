@@ -1,0 +1,26 @@
+{
+    "$schema": "language.schema",
+    "phonemes": {
+        "V": "aeiouʊ",
+        "C": "bdjfgɣyklmnprsʂtvhz"
+    },
+    "structure": "CV?C",
+    "ortho": {
+        "ɣ": "ch",
+        "ʂ": "sh",
+        "ʊ": "ou"
+    },
+    "maxChar": 13,
+    "minChar": 5,
+    "maxSyll": 6,
+    "minSyll": 1,
+	"dictionary": {
+		"black": "debou",
+		"ash": "shazi",
+		"mountain": "sho",
+		"demon": "koporduv",
+		"demons": "koporduva",
+		"grigori": "roush",
+		"rasputin": "dochdavev"
+	}
+}
