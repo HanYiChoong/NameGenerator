@@ -2,16 +2,34 @@
     "$schema": "language.schema",
     "phonemes": {
         "V": "aeiou",
-        "C": "ptkbdgmnlrsʃzʒʧʤ"
+        "C": "kKsʃʧʤnNhfHmMyrRwgGzjdbBpP"
     },
     "structure": "CV?C",
     "ortho": {
-        "ʃ": "x",
-        "ʧ": "q",
-        "ʤ": "j"
+        "K": "ky",
+        "N": "ny",
+        "H": "hy",
+        "M": "my",
+        "R": "ry",
+        "G": "gy",
+        "B": "by",
+        "P": "py",
+        "ʃ": "sh",
+        "ʧ": "ch",
+        "ʤ": "ts"
     },
     "maxChar": 9,
     "minChar": 4,
     "maxSyll": 3,
-    "minSyll": 1
+    "minSyll": 1,
+	"dictionary": {
+		"fire": "ryachi",
+		"hero": "fihumo",
+		"heroine": "ryumy",
+		"destiny": "haichey",
+		"emperor": "bienyu",
+		"supreme": "myraya",
+		"king": "chombyo",
+		"soldier": "myenuk"
+	}
 }

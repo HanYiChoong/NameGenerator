@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "minChar":{
+            "type":"integer"
+        },
+        "maxChar":{
+            "type":"integer"
+        },
+		"dictionary":{
+			"type": "object",
+			"patternProperties": {
+                ".+":{
+                    "type":"string"
+                }
+            }
+		},
+        "text": {
+            "type": "string"
+        }
+    }
+}

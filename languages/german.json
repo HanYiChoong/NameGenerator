@@ -1,20 +1,35 @@
 {
     "$schema": "language.schema",
     "phonemes": {
-        "V": "aeiou",
-        "C": "ptkbdgmnlrsʃzʒʧʤ"
+        "V": "aeiouAEIOUHR",
+        "C": "mnptkbdgPTʃŋfsçhvzjlr"
     },
     "structure": "CV?C",
     "ortho": {
-        "ʃ": "sch",
-        "ʒ": "zh",
-        "ʧ": "tsch",
-        "ʤ": "dz",
-        "j": "j",
-        "x": "ch"
+		"I": "ir",
+		"U": "ur",
+		"E": "er",
+		"A": "ar",
+		"H": "ehr",
+		"O": "or",
+		"R": "ahr",
+		"P": "pf",
+		"T": "ts",
+		"ʃ": "sch",
+		"ŋ": "ng",
+		"ç": "ch"
     },
     "maxChar": 10,
     "minChar": 4,
     "maxSyll": 3,
-    "minSyll": 1
+    "minSyll": 1,
+	"dictionary": {
+		"leader": "chimeris",
+		"magic": "mehrvubar",
+		"wizard": "kerbetir",
+		"people": "yir",
+		"storm": "zahr",
+		"heart": "vuhr",
+		"land": "dirvat"
+	}
 }

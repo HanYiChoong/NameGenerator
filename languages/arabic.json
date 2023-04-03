@@ -1,21 +1,30 @@
 {
     "$schema": "language.schema",
     "phonemes": {
-        "V": "iuajw",
-        "C": "tksʃdbqɣxmnlrwj"
+        "V": "auiAW",
+        "C": "btTjhxdDrzsSGfqklmnwy"
     },
     "structure": "CV?C",
-    "ortho": {},
+    "ortho": {
+        "x": "kh",
+        "T": "th",
+        "D": "dh",
+        "S": "sh",
+        "G": "gh",
+        "A": "ay",
+        "W": "aw"
+    },
     "maxChar": 8,
     "minChar": 3,
     "maxSyll": 3,
     "minSyll": 1,
 	"dictionary": {
-		"caliph": "kyka",
-		"caliphate": "kykashu",
-		"creek": "yamishu",
-		"middle": "yghod",
-		"police": "ghat",
-		"jasmine": "rukagy"
+		"caliph": "thay",
+		"caliphate": "thayyinate",
+		"creek": "kafyan",
+		"middle": "magh",
+		"police": "kayhimu",
+		"jasmine": "fawdma",
+		"south": "nugham"
 	}
 }
