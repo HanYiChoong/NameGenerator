@@ -2,10 +2,10 @@
 https://www.jeffcarp.com/posts/2019/markov-chain-python/
 """
 import argparse
+import random
 from typing import Optional, TypedDict
-import numpy as np
-from collections import defaultdict
 from json import load
+import markovify
 
 
 class MarkovLanguage(TypedDict):
@@ -16,84 +16,92 @@ class MarkovLanguage(TypedDict):
 
 
 class MarkovNameGen:
-    def _walk_graph(self, graph, distance=5, start_node=None) -> list[str]:
-        """Returns a list of words from a randomly weighted walk."""
-        if distance <= 0:
-            return []
-
-        # If not given, pick a start node at random.
-        if not start_node:
-            start_node = self.rng.choice(list(graph.keys()))
-
-        weights = np.array(
-            list(self.markov_graph[start_node].values()), dtype=np.float64
-        )
-        # Normalize word counts to sum to 1.
-        weights /= weights.sum()
-
-        # Pick a destination using weighted distribution.
-        choices = list(self.markov_graph[start_node].keys())
-        chosen_word = self.rng.choice(choices, None, p=weights)
-
-        return [chosen_word] + self._walk_graph(
-            graph, distance=distance - 1, start_node=chosen_word
-        )
-
-    def generate_graph(self, filename: str):
+    def __init__(self, filename: str):
         # Read text from file and tokenize.
-        with open(filename) as fp:
+        with open(filename, "r") as fp:
             self.language: MarkovLanguage = load(fp)
-        tokenized_text = [letter for letter in self.language["text"]]
 
-        # Create graph.
-        self.markov_graph = defaultdict(lambda: defaultdict(int))
+        corpus = list()
+        for word in self.language["text"].lower().split(" "):
+            corpus.append([x for x in word])
 
-        last_letter = tokenized_text[0].lower()
-        for letter in tokenized_text[1:]:
-            if letter == " ":
-                continue
-            letter = letter.lower()
-            self.markov_graph[last_letter][letter] += 1
-            last_letter = letter
+        self.generator = markovify.Text(None, parsed_sentences=corpus,
+                                        state_size=3)
 
-    def convert_to_number(self, string: str) -> int:
-        return int.from_bytes(string.encode(), "little")
-
-    def generate_word(self, seed: str = None):
-        if "dictionary" in self.language.keys():
-            if seed.lower() in self.language["dictionary"]:
-                return self.language["dictionary"][seed.lower()]
+    def generate_word(self, seed: str | None = None):
+        if seed and self.language["dictionary"] and seed.lower() in self.language["dictionary"]:
+            return self.language["dictionary"][seed.lower()]
 
         if seed is not None:
-            self.rng = np.random.default_rng(self.convert_to_number(seed))
-        minChar = self.language["minChar"]
-        maxChar = self.language["maxChar"]
-        distance = int((maxChar - minChar) * self.rng.random() + minChar)
-        return "".join(self._walk_graph(self.markov_graph, distance=distance))
+            random.seed(seed)
+        word = None
+        while word is None:
+            word = self.generator.make_sentence()
 
+        return word.replace(" ", "")
+    
+class MarkovAddWord:
+    def __init__(self, filename: str):
+        with open(filename, "r") as fp:
+            self.language: MarkovLanguage = load(fp)
+    
+    def add_word(self, text: str, word: str) -> int:
+        """Adds a word to the dictionary.
+
+        Args:
+            text (str): English text to base the word around.
+            word (str): Word to add.
+
+        Returns:
+            int: Provides error codes. 0: Added without issue. 1: No dictionary present. 2: English text already exists. 3: More than one word provided.
+        """
+        if not self.language["dictionary"]:
+            return 1
+        word_counts = len(text.split(" "))
+        if (word_counts != 1):
+            return 3
+        if text in self.language["dictionary"]:
+            return 2
+        self.language["dictionary"][text] = word
+        return 0
+    
 
 def aparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("lang", help="Language file to use", type=str)
-    parser.add_argument("--text", help="Text to use as base", type=str)
+    parser.add_argument("lang", help="Language file to use.", type=str)
+    parser.add_argument("--text", help="Text to use as base.", type=str)
+    parser.add_argument("--add", help="Con-word to add using text provided. Only 1 word allowed.", type=str)
 
     return parser
 
 
 if __name__ == "__main__":
-    markov = MarkovNameGen()
     parser = aparse()
     args = parser.parse_args()
     TEXT = args.text
     LANG = args.lang
-    markov.generate_graph(LANG)
+    ADD_WORD = args.add
 
-    words = list()
-    if TEXT is not None:
-        TEXTSPLIT = TEXT.split(" ")
-        for i in TEXTSPLIT:
-            words.append(markov.generate_word(i))
+    if ADD_WORD:
+        add_gen = MarkovAddWord(LANG)
+        success_rate = add_gen.add_word(TEXT, ADD_WORD)
+        if (success_rate == 0):
+            print("{}: {} added successfully!".format(TEXT, ADD_WORD))
+        if (success_rate == 1):
+            print("Provided language file has no dictionary!")
+        if (success_rate == 2):
+            print("Provided English text already exists!")
+        if (success_rate == 3):
+            print("More than one word provided!")
     else:
-        words.append(markov.generate_word())
+        markov = MarkovNameGen(LANG)
 
-    print(" ".join(words))
+        words = list()
+        if TEXT is not None:
+            TEXTSPLIT = TEXT.split(" ")
+            for i in TEXTSPLIT:
+                words.append(markov.generate_word(i))
+        else:
+            words.append(markov.generate_word())
+
+        print(" ".join(words))
